@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="color-scheme" content="light dark">
+    
+    <title>Light/Dark Mode Fix</title>
+
+    <style>
+        /* 3. CSS Custom Properties (Variables)
+          Define all colors here. This is the default (Light Mode).
+        */
+        :root {
+            --color-text: #222;
+            --color-background: #ffffff;
+            --color-nav-background: #f9f9f9;
+            --color-nav-border: #ddd;
+            --color-input-background: #f1f1f1;
+            --color-input-border: #ccc;
+            --color-input-placeholder: #777;
+            --color-primary-button: #007aff;
+            --color-primary-button-text: #ffffff;
+        }
+
+        /* 4. Dark Mode Palette
+          Redefine the variables when the user prefers dark mode.
+        */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --color-text: #eee;
+                --color-background: #121212;
+                --color-nav-background: #1c1c1c;
+                --color-nav-border: #333;
+                --color-input-background: #333;
+                --color-input-border: #555;
+                --color-input-placeholder: #aaa;
+                --color-primary-button: #0a84ff;
+                --color-primary-button-text: #ffffff;
+            }
+        }
+
+        /* 5. Global Styles
+          Apply variables to your elements.
+        */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            background-color: var(--color-background);
+            color: var(--color-text);
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        nav {
+            background-color: var(--color-nav-background);
+            border-bottom: 1px solid var(--color-nav-border);
+            padding: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        main {
+            padding: 1rem;
+        }
+        
+        form {
+            display: grid;
+            gap: 1rem;
+            max-width: 500px;
+            margin-top: 1rem;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+
+        /* 6. Form Element Fixes (Buttons & Inputs)
+          This is where you override the inconsistent browser defaults.
+        */
+        input[type="text"],
+        textarea,
+        button {
+            /* This is the key to removing platform-native styling 
+              (like iOS gradients or Android's forced styles).
+            */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+
+            /* Now, you MUST re-style everything yourself */
+            font-family: inherit;
+            font-size: 1rem;
+            padding: 0.6em 0.8em;
+            border-radius: 8px;
+            
+            /* Apply your color variables */
+            background-color: var(--color-input-background);
+            border: 1px solid var(--color-input-border);
+            color: var(--color-text);
+            
+            /* Smooth transitions for mode switch */
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        /* Style placeholders */
+        input::placeholder,
+        textarea::placeholder {
+            color: var(--color-input-placeholder);
+            opacity: 1; /* Override browser defaults */
+        }
+        
+        /* Specific styles for the button */
+        button {
+            background-color: var(--color-primary-button);
+            color: var(--color-primary-button-text);
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            opacity: 0.85;
+        }
+
+        /* 7. Specific Mobile Fixes
+          Some mobile browsers (especially iOS) might still need
+          explicit re-declaration inside the media query.
+        */
+        @media (prefers-color-scheme: dark) {
+            input[type="text"],
+            textarea {
+                /* This can seem redundant, but it explicitly tells 
+                  the browser to use these styles in dark mode,
+                  fixing some rendering bugs.
+                */
+                background-color: var(--color-input-background);
+                border: 1px solid var(--color-input-border);
+                color: var(--color-text);
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        My Application
+    </nav>
+
+    <main>
+        <h1>Dark Mode Test Page</h1>
+        <p>This page uses CSS variables and <code>meta name="color-scheme"</code> to provide a consistent light and dark mode experience, disabling the browser's "auto dark" feature.</p>
+        
+        <form onsubmit="event.preventDefault(); alert('Form Submitted!');">
+            <div>
+                <label for="name">Name</label>
+                <br>
+                <input type="text" id="name" placeholder="Enter your name" style="width: 100%;">
+            </div>
+
+            <div>
+                <label for="comments">Comments</label>
+                <br>
+                <textarea id="comments" rows="4" placeholder="Enter comments here..." style="width: 100%;"></textarea>
+            </div>
+
+            <button type="submit">Submit Button</button>
+        </form>
+    </main>
+
+</body>
+</html>
