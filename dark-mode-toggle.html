@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta name="color-scheme" content="light dark" />
+
+  <title>Dark Mode Fix</title>
+  <style>
+    /* ============================================
+      STEP 1: DEFINE ALL YOUR COLORS AS CSS VARIABLES
+      ============================================
+      We define 'light' mode colors by default.
+    */
+    :root {
+      /* Color variables for light mode */
+      --page-bg: #ffffff;
+      --text-color: #222222;
+      --nav-bg: #f8f8f8;
+      --nav-border: #e7e7e7;
+      --button-bg: #007aff;
+      --button-text: #ffffff;
+      --input-bg: #ffffff;
+      --input-border: #cccccc;
+      --input-text: #222222;
+
+      /* Adds a smooth transition for all color changes */
+      transition: all 0.3s ease;
+    }
+
+    /* ============================================
+      STEP 2: RE-DEFINE VARIABLES FOR DARK MODE
+      ============================================
+      We use the 'data-theme' attribute to override the
+      variables when dark mode is active.
+    */
+    html[data-theme="dark"] {
+      --page-bg: #1c1c1e;
+      --text-color: #ffffff;
+      --nav-bg: #2c2c2e;
+      --nav-border: #3a3a3c;
+      --button-bg: #0a84ff;
+      --button-text: #ffffff;
+      --input-bg: #2c2c2e;
+      --input-border: #3a3a3c;
+      --input-text: #ffffff;
+    }
+
+    /* ============================================
+      STEP 3: APPLY VARIABLES TO YOUR ELEMENTS
+      ============================================
+      NEVER use hard-coded colors (like '#FFF'). 
+      ALWAYS use your variables.
+    */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        sans-serif;
+      background-color: var(--page-bg);
+      color: var(--text-color);
+      margin: 0;
+      padding: 20px;
+    }
+
+    /* Navigation Bar */
+    nav {
+      background-color: var(--nav-bg);
+      border-bottom: 1px solid var(--nav-border);
+      padding: 15px 20px;
+      margin: -20px -20px 20px -20px;
+    }
+
+    nav h1 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    /* Button */
+    .my-button {
+      background-color: var(--button-bg);
+      color: var(--button-text);
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Text Field */
+    .my-textfield {
+      background-color: var(--input-bg);
+      color: var(--input-text);
+      border: 1px solid var(--input-border);
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 1rem;
+      width: calc(100% - 24px); /* Full width minus padding */
+      margin-top: 20px;
+    }
+
+    /* This targets the browser's autofill style */
+    input:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 30px var(--input-bg) inset !important;
+      -webkit-text-fill-color: var(--input-text) !important;
+    }
+
+    /* Theme Toggle Button */
+    #theme-toggle {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <h1>My Application</h1>
+  </nav>
+
+  <h2>This is the content</h2>
+  <p>All elements on this page will adapt correctly.</p>
+
+  <button class="my-button">Primary Button</button>
+
+  <input
+    type="text"
+    class="my-textfield"
+    placeholder="This text field works too"
+  />
+
+  <button class="my-button" id="theme-toggle" style="margin-top: 20px">
+    Toggle Theme
+  </button>
+
+  <script>
+    const themeToggle = document.getElementById("theme-toggle");
+    const htmlEl = document.documentElement;
+
+    themeToggle.addEventListener("click", function () {
+      // Check the current theme
+      if (htmlEl.dataset.theme === "light") {
+        // If light, change to dark
+        htmlEl.dataset.theme = "dark";
+      } else {
+        // If dark, change to light
+        htmlEl.dataset.theme = "light";
+      }
+    });
+
+    // Bonus: You can also listen to the device's
+    // preferred theme, but this example focuses
+    // on a manual toggle.
+  </script>
+</body>
+</html>
